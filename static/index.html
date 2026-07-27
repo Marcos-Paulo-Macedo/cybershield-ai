@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WikiNext — Enciclopédia & Diagnóstico de Segurança</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['Newsreader', 'Georgia', 'serif'],
+            sans: ['Inter', 'sans-serif']
+          },
+          colors: {
+            brand: {
+              50: '#f4f6fb',
+              100: '#e8ecf6',
+              500: '#2563eb',
+              600: '#1d4ed8',
+              900: '#0f172a'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
+    .fade-in { animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 selection:bg-blue-100 selection:text-blue-900">
+
+  <!-- Header Estilo Wiki 2.0 -->
+  <header class="bg-white/80 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-50 py-3.5 px-6">
+    <div class="max-w-7xl mx-auto flex justify-between items-center">
+      <div class="flex items-center gap-3.5">
+        <div class="w-9 h-9 rounded-xl bg-slate-900 text-white font-serif font-bold text-xl flex items-center justify-center shadow-sm">
+          W
+        </div>
+        <div>
+          <h1 class="text-lg font-serif font-bold tracking-tight text-slate-900 leading-none">
+            Wiki<span class="text-blue-600 font-sans text-xs uppercase tracking-widest font-semibold ml-0.5">Next</span>
+          </h1>
+          <span id="txtSubtitulo" class="text-[11px] text-slate-500 font-medium">A enciclopédia livre de diagnóstico de segurança</span>
+        </div>
+      </div>
+
+      <!-- Flag de Idioma -->
+      <div class="flex items-center gap-2 bg-slate-100/80 p-1 rounded-lg border border-slate-200">
+        <label id="lblIdioma" for="selectLanguage" class="text-[11px] text-slate-600 font-medium px-2">Idioma:</label>
+        <select id="selectLanguage" onchange="atualizarIdiomaInterface()" class="bg-white border border-slate-200 rounded-md text-xs font-medium py-1 px-2 text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
+          <option value="pt" selected>Português (PT)</option>
+          <option value="en">English (EN)</option>
+          <option value="es">Español (ES)</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+    <!-- Painel Lateral / Formulário -->
+    <section class="lg:col-span-5 space-y-5">
+      <div class="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+          <h2 id="txtRelatarTitulo" class="text-base font-bold text-slate-900 flex items-center gap-2">
+            Relatar Ocorrência
+          </h2>
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+        </div>
+
+        <p id="txtRelatarDesc" class="text-xs text-slate-500 mb-4 leading-relaxed">
+          Insira o texto completo da mensagem, e-mail ou transcreva o relato da ligação recebida para consultar a base de dados.
+        </p>
+
+        <textarea 
+          id="userInput" 
+          rows="8" 
+          class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition resize-none font-sans"
+          placeholder="Exemplo: Recebi uma ligação informando sobre uma tentativa de invasão na minha conta corrente e me instruíram a realizar um procedimento de segurança..."
+        ></textarea>
+
+        <button 
+          onclick="consultarBase()" 
+          id="btnSubmit"
+          class="mt-4 w-full bg-slate-900 hover:bg-blue-600 text-white font-medium py-2.5 px-4 rounded-xl text-xs transition duration-200 shadow-sm active:scale-[0.99]"
+        >
+          Consultar Artigo / Diagnosticar
+        </button>
+      </div>
+
+      <!-- Cards de Exemplos -->
+      <div class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm">
+        <h3 id="txtExemplosTitulo" class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Exemplos Registrados</h3>
+        <div class="space-y-2">
+          <button id="btnExemplo1" onclick="carregarExemplo(1)" class="w-full text-left text-xs bg-slate-50 hover:bg-blue-50/60 hover:text-blue-700 p-3 rounded-xl border border-slate-100 text-slate-600 transition duration-150 font-medium leading-snug">
+            • Notificação de compra suspeita com solicitação de suporte remoto
+          </button>
+          <button id="btnExemplo2" onclick="carregarExemplo(2)" class="w-full text-left text-xs bg-slate-50 hover:bg-blue-50/60 hover:text-blue-700 p-3 rounded-xl border border-slate-100 text-slate-600 transition duration-150 font-medium leading-snug">
+            • Mensagem de contato emergencial alegando substituição de número
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Painel de Exibição / Artigo Wiki 2.0 -->
+    <section class="lg:col-span-7">
+
+      <!-- Estado Vazio -->
+      <div id="painelVazio" class="h-full min-h-[420px] bg-white border border-slate-200/80 rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-sm">
+        <div class="w-12 h-12 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-400 text-xl mb-3">
+          📚
+        </div>
+        <p id="txtVazioTitle" class="text-slate-800 font-semibold text-sm">Aguardando entrada de dados para consulta</p>
+        <p id="txtVazioSub" class="text-xs text-slate-400 mt-1 max-w-sm">Preencha o formulário ao lado para gerar o relatório descritivo e a ficha técnica.</p>
+      </div>
+
+      <!-- Estado Loading -->
+      <div id="painelCarregando" class="hidden h-full min-h-[420px] bg-white border border-slate-200/80 rounded-2xl p-8 flex flex-col items-center justify-center text-center shadow-sm">
+        <div class="w-10 h-12 border-3 border-blue-600/20 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+        <p id="txtCarregando" class="text-sm font-serif font-bold text-slate-800 animate-pulse">Consultando registros da base de conhecimento...</p>
+      </div>
+
+      <!-- Resultado / Artigo -->
+      <div id="painelResultado" class="hidden space-y-6 fade-in">
+
+        <div class="bg-white border border-slate-200/80 rounded-2xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
+          
+          <div class="border-b border-slate-100 pb-4 mb-6">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-blue-600 bg-blue-50 border border-blue-100 px-2.5 py-1 rounded-md mb-2 inline-block">Diagnóstico Confirmado</span>
+            <h2 id="resNome" class="text-2xl sm:text-3xl font-serif font-bold text-slate-900 tracking-tight">---</h2>
+          </div>
+
+          <!-- Infobox Estilo Wiki 2.0 (Ficha Técnica) -->
+          <div class="lg:float-right lg:ml-6 mb-6 w-full lg:w-64 bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs space-y-3 shadow-sm">
+            <div id="lblFicha" class="font-bold text-slate-900 pb-2 border-b border-slate-200 text-center uppercase tracking-wider text-[10px]">
+              Ficha Técnica
+            </div>
+            <div>
+              <span id="lblScore" class="text-slate-500 block mb-0.5">Complexidade:</span>
+              <span id="resScore" class="text-base font-bold text-red-600">0/10</span>
+            </div>
+            <div>
+              <span id="lblCanal" class="text-slate-500 block mb-0.5">Canal Utilizado:</span>
+              <span id="resCanal" class="font-medium text-slate-800">---</span>
+            </div>
+            <div>
+              <span id="lblVetor" class="text-slate-500 block mb-0.5">Vetor de Ataque:</span>
+              <span id="resVetor" class="font-medium text-slate-800">---</span>
+            </div>
+            <div>
+              <span id="lblGatilho" class="text-slate-500 block mb-0.5">Gatilho Primário:</span>
+              <span id="resGatilho" class="font-medium text-slate-800">---</span>
+            </div>
+          </div>
+
+          <!-- Resumo em Texto -->
+          <div class="text-xs sm:text-sm text-slate-600 leading-relaxed space-y-3">
+            <p id="resResumo">---</p>
+          </div>
+
+          <div class="clear-both"></div>
+        </div>
+
+        <!-- Protocolo de Emergência -->
+        <div class="bg-red-50/70 border border-red-200/80 rounded-2xl p-6 shadow-sm space-y-3">
+          <h3 id="lblContencao" class="text-xs font-bold text-red-900 uppercase tracking-wider flex items-center gap-2">
+            <span>🚨</span> Procedimentos Emergenciais de Contenção
+          </h3>
+          <ul id="resContencao" class="list-disc list-inside text-xs text-red-800 space-y-1.5 leading-relaxed font-medium"></ul>
+        </div>
+
+        <!-- Prevenção -->
+        <div class="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm space-y-3">
+          <h3 id="lblPrevencao" class="text-xs font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
+            <span>🛡️</span> Medidas de Prevenção
+          </h3>
+          <ul id="resPrevencao" class="list-disc list-inside text-xs text-slate-600 space-y-1.5 leading-relaxed"></ul>
+        </div>
+
+        <!-- Botão Exportar PDF -->
+        <div class="flex justify-end pt-2">
+          <a 
+            id="btnPdf"
+            href="/api/exportar-pdf" 
+            target="_blank"
+            class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 px-5 py-2.5 rounded-xl text-xs font-semibold transition shadow-sm flex items-center gap-2"
+          >
+            <span>📄 Versão para Impressão (PDF)</span>
+          </a>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+    const i18n = {
+      pt: {
+        subtitulo: "A enciclopédia livre de diagnóstico de segurança",
+        lblIdioma: "Idioma:",
+        relatarTitulo: "Relatar Ocorrência",
+        relatarDesc: "Insira o texto completo da mensagem, e-mail ou transcreva o relato da ligação recebida para consultar a base de dados.",
+        placeholder: "Exemplo: Recebi uma ligação informando sobre uma tentativa de invasão na minha conta corrente e me instruíram a realizar um procedimento de segurança via aplicativo...",
+        btnSubmit: "Consultar Artigo / Diagnosticar",
+        exemplosTitulo: "Exemplos Registrados",
+        exemplo1: "• Notificação de compra suspeita com solicitação de suporte remoto",
+        exemplo2: "• Mensagem de contato emergencial alegando substituição de número",
+        vazioTitle: "Aguardando entrada de dados para consulta",
+        vazioSub: "Preencha o formulário ao lado para gerar o relatório descritivo e a ficha técnica.",
+        carregando: "Consultando registros da base de conhecimento...",
+        lblFicha: "Ficha Técnica",
+        lblScore: "Complexidade:",
+        lblCanal: "Canal Utilizado:",
+        lblVetor: "Vetor de Ataque:",
+        lblGatilho: "Gatilho Primário:",
+        lblContencao: "Procedimentos Emergenciais de Contenção",
+        lblPrevencao: "Medidas de Prevenção",
+        btnPdf: "Versão para Impressão (PDF)",
+        alertaVazio: "Insira uma descrição antes de prosseguir."
+      },
+      en: {
+        subtitulo: "The free security diagnosis encyclopedia",
+        lblIdioma: "Language:",
+        relatarTitulo: "Report Incident",
+        relatarDesc: "Enter the full message, email, or transcribe the received call to search the database.",
+        placeholder: "Example: I received a call informing me of a unauthorized transaction in my bank account and was instructed to perform a security procedure...",
+        btnSubmit: "Search Article / Diagnose",
+        exemplosTitulo: "Registered Examples",
+        exemplo1: "• Suspicious purchase notification with remote support request",
+        exemplo2: "• Emergency contact message claiming a number change",
+        vazioTitle: "Awaiting data input for query",
+        vazioSub: "Fill out the form on the left to generate the descriptive report and data sheet.",
+        carregando: "Consulting knowledge base records...",
+        lblFicha: "Data Sheet",
+        lblScore: "Complexity:",
+        lblCanal: "Channel Used:",
+        lblVetor: "Attack Vector:",
+        lblGatilho: "Primary Trigger:",
+        lblContencao: "Emergency Containment Procedures",
+        lblPrevencao: "Preventive Measures",
+        btnPdf: "Printable Version (PDF)",
+        alertaVazio: "Please enter a description before proceeding."
+      },
+      es: {
+        subtitulo: "La enciclopedia libre de diagnóstico de seguridad",
+        lblIdioma: "Idioma:",
+        relatarTitulo: "Reportar Incidente",
+        relatarDesc: "Ingrese el texto completo del mensaje, correo o la llamada recibida para consultar la base de datos.",
+        placeholder: "Ejemplo: Recibí una llamada informando sobre un intento de transacción no autorizada y me indicaron realizar un procedimiento de seguridad...",
+        btnSubmit: "Consultar Artículo / Diagnosticar",
+        exemplosTitulo: "Ejemplos Registrados",
+        exemplo1: "• Notificación de compra sospechosa con solicitud de soporte remoto",
+        exemplo2: "• Mensaje de contacto de emergencia alegando cambio de número",
+        vazioTitle: "Esperando entrada de datos para la consulta",
+        vazioSub: "Rellene el formulario lateral para generar el informe descriptivo y la ficha técnica.",
+        carregando: "Consultando registros en la base de conocimiento...",
+        lblFicha: "Ficha Técnica",
+        lblScore: "Complejidad:",
+        lblCanal: "Canal Utilizado:",
+        lblVetor: "Vector de Ataque:",
+        lblGatilho: "Gatillo Primario:",
+        lblContencao: "Procedimientos de Contención de Emergencia",
+        lblPrevencao: "Medidas Preventivas",
+        btnPdf: "Versión para Impresión (PDF)",
+        alertaVazio: "Por favor, ingrese una descripción antes de continuar."
+      }
+    };
+
+    function atualizarIdiomaInterface() {
+      const lang = document.getElementById('selectLanguage').value;
+      const t = i18n[lang] || i18n.pt;
+
+      document.getElementById('txtSubtitulo').innerText = t.subtitulo;
+      document.getElementById('lblIdioma').innerText = t.lblIdioma;
+      document.getElementById('txtRelatarTitulo').innerText = t.relatarTitulo;
+      document.getElementById('txtRelatarDesc').innerText = t.relatarDesc;
+      document.getElementById('userInput').placeholder = t.placeholder;
+      document.getElementById('btnSubmit').innerText = t.btnSubmit;
+      document.getElementById('txtExemplosTitulo').innerText = t.exemplosTitulo;
+      document.getElementById('btnExemplo1').innerText = t.exemplo1;
+      document.getElementById('btnExemplo2').innerText = t.exemplo2;
+      document.getElementById('txtVazioTitle').innerText = t.vazioTitle;
+      document.getElementById('txtVazioSub').innerText = t.vazioSub;
+      document.getElementById('txtCarregando').innerText = t.carregando;
+      document.getElementById('lblFicha').innerText = t.lblFicha;
+      document.getElementById('lblScore').innerText = t.lblScore;
+      document.getElementById('lblCanal').innerText = t.lblCanal;
+      document.getElementById('lblVetor').innerText = t.lblVetor;
+      document.getElementById('lblGatilho').innerText = t.lblGatilho;
+      document.getElementById('lblContencao').innerText = t.lblContencao;
+      document.getElementById('lblPrevencao').innerText = t.lblPrevencao;
+      document.getElementById('btnPdf').innerText = t.btnPdf;
+    }
+
+    async function consultarBase() {
+      const texto = document.getElementById('userInput').value.trim();
+      const idioma = document.getElementById('selectLanguage').value;
+      const t = i18n[idioma] || i18n.pt;
+
+      if (!texto) {
+        alert(t.alertaVazio);
+        return;
+      }
+
+      document.getElementById('painelVazio').classList.add('hidden');
+      document.getElementById('painelResultado').classList.add('hidden');
+      document.getElementById('painelCarregando').classList.remove('hidden');
+
+      try {
+        const resp = await fetch('/api/analisar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ texto: texto, idioma: idioma })
+        });
+
+        if (!resp.ok) {
+          const err = await resp.json();
+          throw new Error(err.detail || 'Error');
+        }
+
+        const dados = await resp.json();
+        exibirArtigo(dados);
+
+      } catch (err) {
+        alert('Erro: ' + err.message);
+        document.getElementById('painelCarregando').classList.add('hidden');
+        document.getElementById('painelVazio').classList.remove('hidden');
+      }
+    }
+
+    function exibirArtigo(dados) {
+      document.getElementById('painelCarregando').classList.add('hidden');
+      document.getElementById('painelResultado').classList.remove('hidden');
+
+      document.getElementById('resNome').innerText = dados.nome_incidente;
+      document.getElementById('resScore').innerText = `${dados.nivel_complexidade}/10`;
+      document.getElementById('resResumo').innerText = dados.resumo_tecnico;
+      document.getElementById('resCanal').innerText = dados.detalhes.canal;
+      document.getElementById('resVetor').innerText = dados.detalhes.vetor;
+      document.getElementById('resGatilho').innerText = dados.detalhes.gatilho;
+
+      const contencao = document.getElementById('resContencao');
+      contencao.innerHTML = '';
+      dados.protocolo_emergencia.forEach(item => {
+        const li = document.createElement('li');
+        li.innerText = item;
+        contencao.appendChild(li);
+      });
+
+      const prevencao = document.getElementById('resPrevencao');
+      prevencao.innerHTML = '';
+      dados.medidas_preventivas.forEach(item => {
+        const li = document.createElement('li');
+        li.innerText = item;
+        prevencao.appendChild(li);
+      });
+    }
+
+    function carregarExemplo(tipo) {
+      const lang = document.getElementById('selectLanguage').value;
+      const input = document.getElementById('userInput');
+
+      if (lang === 'en') {
+        if (tipo === 1) {
+          input.value = "I received a phone call claiming to be from my bank's security department reporting a fraudulent $800 transaction. The caller instructed me to install a remote access app to cancel the transaction.";
+        } else {
+          input.value = "I received a message on WhatsApp from an unknown number using a relative's profile picture, asking for an urgent bank transfer because their banking app was locked.";
+        }
+      } else if (lang === 'es') {
+        if (tipo === 1) {
+          input.value = "Recibí una llamada supuestamente del departamento de seguridad del banco informando sobre una transferencia sospechosa. Me pidieron descargar una aplicación de soporte para cancelar la operación.";
+        } else {
+          input.value = "Recibí un mensaje por WhatsApp de un número desconocido con la foto de un familiar, pidiendo una transferencia urgente porque su aplicación bancaria estaba bloqueada.";
+        }
+      } else {
+        if (tipo === 1) {
+          input.value = "Recebi uma ligação do número oficial do banco informando uma transação não autorizada de valor alto. O atendente solicitou a instalação de uma atualização de segurança para bloquear a operação.";
+        } else {
+          input.value = "Recebi mensagem via aplicativo informando que um parente próximo trocou de número e precisava de um pagamento emergencial via Pix pois o aplicativo financeiro dele estava inoperante.";
+        }
+      }
+    }
+  </script>
+</body>
+</html>

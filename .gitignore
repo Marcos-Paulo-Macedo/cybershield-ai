@@ -1,0 +1,14 @@
+# Ambientes virtuais
+venv/
+.venv/
+env/
+
+# Chaves de API e Segredos
+.env
+
+# Arquivos compilados/cache
+__pycache__/
+*.pyc
+
+# Arquivos de sistema
+.DS_Store
