@@ -68,16 +68,3 @@ python app.py
 
 
 Open your browser and navigate to http://127.0.0.1:5000 to access the CyberShield AI interface.
-
-📁 Project Structure
-
-cybershield-ai/
-├── app.py                # Flask application routes & server entry point
-├── threat_analyzer.py    # Google Gemini API threat analysis module
-├── pdf_generator.py      # ReportLab PDF report generation engine
-├── collector.py          # Threat data collection & preprocessing
-├── requirements.txt      # Python dependencies list
-├── .env                  # Environment configuration file
-├── .gitignore            # Git ignore rules
-└── static/
-    └── index.html        # Web dashboard UI (Tailwind CSS)
