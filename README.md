@@ -30,44 +30,6 @@ Lightweight Flask backend serving a responsive Tailwind CSS web UI.
 
 Real-time threat submission, interactive diagnostic inspection, and instant PDF report generation & download.
 
-🛠️ Tech Stack & Documentation
-
-Category
-
-Technologies & Libraries
-
-Documentation / Reference
-
-AI & LLM
-
-Google Generative AI, Gemini 2.5 Flash
-
-📖 Gemini API Documentation
-
-Backend & API
-
-Python 3.11+, Flask
-
-📖 Flask Web Framework Docs
-
-PDF Generation
-
-ReportLab
-
-📖 ReportLab User Guide (PDF)
-
-Frontend & UI
-
-HTML5, Tailwind CSS, JavaScript
-
-📖 Tailwind CSS Docs
-
-Environment & Utils
-
-python-dotenv
-
-📖 python-dotenv PyPI
-
 ⚙️ How to Run
 
 1. Clone the Repository
