@@ -1,60 +1,121 @@
-CyberShield AI: Vendor Due Diligence Engine
+🛡️ CyberShield AI: Multi-Layer Threat Analysis & Executive Security Report Framework
 
-A high-performance, intelligent automation framework for vendor risk assessment and compliance. CyberShield AI leverages the power of Generative AI to process non-structured data and provide actionable executive insights for supply chain and financial risk management.
+An end-to-end, open-source architecture for Cybersecurity Intelligence and Artificial Intelligence, designed to analyze threat vectors, evaluate risk severity levels, and generate structured executive security reports automatically.
 
-🚀 Overview
+This framework solves critical challenges in rapid incident triage and vulnerability assessment by combining modern prompt engineering with Google Gemini 2.5 Flash, a responsive web interface, and an automated PDF report engine powered by ReportLab.
 
-CyberShield AI automates the Vendor Due Diligence process, traditionally a time-consuming manual task. By integrating public data sources with the Gemini API, the engine performs automated risk profiling of potential suppliers and generates structured, professional executive PDF reports.
+🚀 Key Features & Pipeline Architecture
 
-Built with a modular architecture, this project demonstrates advanced skills in RPA governance, API orchestration, and LLM implementation.
+🔍 Intelligent Threat Analysis (threat_analyzer.py):
 
-🏗️ Architecture
+Ingests raw incident logs, vulnerability descriptions, or attack vectors.
 
-Collector Module: Aggregates data from public APIs and professional search engines.
+Direct integration with Google Gemini API to classify severity levels (Low, Medium, High, Critical) and provide actionable remediation strategies.
 
-Threat Analyzer: Utilizes Gemini LLM to process non-structured data, analyze compliance risks (Financial, Regulatory, Reputational), and calculate a definitive Risk Score.
+📄 Automated PDF Report Engine (pdf_generator.py):
 
-Reporter Engine: Generates high-quality, professional executive PDF summaries using ReportLab.
+Converts AI technical diagnostics into executive-ready PDF security reports.
 
-🛠️ Tech Stack
+Leverages ReportLab canvas rendering for structured layouts, risk metrics, and mitigation checklists.
 
-Language: Python 3.11+
+📊 Data Collector & Sanitizer (collector.py):
 
-AI/LLM: Google GenAI (Gemini API)
+Validates and sanitizes incoming security payloads before LLM ingestion.
 
-Automation: Web Scraping, API Integration
+Ensures structured JSON data formatting for downstream processing.
 
-Report Generation: ReportLab
+🖥️ Web Audit Interface & Dashboard (app.py / static/index.html):
 
-Infrastructure: PostgreSQL (Telemetry Governance ready)
+Lightweight Flask backend serving a responsive Tailwind CSS web UI.
 
-⚙️ Configuration & Setup
+Real-time threat submission, interactive diagnostic inspection, and instant PDF report generation & download.
 
-1. Prerequisites
+🛠️ Tech Stack & Documentation
 
-Ensure you have Python 3.11+ installed. Clone the repository and set up your virtual environment:
+Category
 
+Technologies & Libraries
+
+Documentation / Reference
+
+AI & LLM
+
+Google Generative AI, Gemini 2.5 Flash
+
+📖 Gemini API Documentation
+
+Backend & API
+
+Python 3.11+, Flask
+
+📖 Flask Web Framework Docs
+
+PDF Generation
+
+ReportLab
+
+📖 ReportLab User Guide (PDF)
+
+Frontend & UI
+
+HTML5, Tailwind CSS, JavaScript
+
+📖 Tailwind CSS Docs
+
+Environment & Utils
+
+python-dotenv
+
+📖 python-dotenv PyPI
+
+⚙️ How to Run
+
+1. Clone the Repository
+
+git clone https://github.com/Marcos-Paulo-Macedo/cybershield-ai.git
+cd cybershield-ai
+
+
+2. Set Up Virtual Environment
+
+# On Windows
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+venv\Scripts\activate
+
+# On Linux/macOS
+python3 -m venv venv
+source venv/bin/activate
+
+
+3. Install Dependencies
+
 pip install -r requirements.txt
 
 
-2. Environment Variables
+4. Configure Environment Variables
 
-To run the engine, you need to provide your Gemini API Key and Model. Create a .env file in the root directory:
+Create a .env file in the project root directory:
 
-GEMINI_API_KEY=your_actual_api_key_here
-GEMINI_MODEL=model-gemini
+GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_MODEL=gemini-2.5-flash
 
 
-Note: Never commit your .env file to version control. The repository includes a .gitignore to prevent this.
+5. Launch the Application
 
-📈 Key Engineering Highlights
+python app.py
 
-Structured Output: Leverages LLM prompting to extract deterministic data for reliable reporting.
 
-Scalability: Modular design allows for the addition of new data collectors or alternative LLM models.
+Open your browser and navigate to http://127.0.0.1:5000 to access the CyberShield AI interface.
 
-Professional Output: Automates executive-level PDF generation, ready for direct stakeholder presentation.
+📁 Project Structure
 
-Developed by Marcos Paulo Macedo | Intelligent Automation Lead & RPA Architect
+cybershield-ai/
+├── app.py                # Flask application routes & server entry point
+├── threat_analyzer.py    # Google Gemini API threat analysis module
+├── pdf_generator.py      # ReportLab PDF report generation engine
+├── collector.py          # Threat data collection & preprocessing
+├── requirements.txt      # Python dependencies list
+├── .env                  # Environment configuration file
+├── .gitignore            # Git ignore rules
+└── static/
+    └── index.html        # Web dashboard UI (Tailwind CSS)
